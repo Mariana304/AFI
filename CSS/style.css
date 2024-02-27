@@ -36,6 +36,8 @@
     text-decoration: none; 
     padding: 15px 20px; 
     border-radius: 4px; font-size: 17px; font-weight: bolder; transition: all 0.3s ease-in-out;
+
+    
 }
 
 #msg-invalid-link{

@@ -37,7 +37,12 @@ if (empty($groups)) {
 
     fclose($archivoCSV);
 
+
+    echo"<div style='text-align: center; margin-top: 30px; '>";
+    
     echo ucfirst("<h1> ¡Hola $firstname!</h1>");
+
+    echo "</div>";
 
 
 
