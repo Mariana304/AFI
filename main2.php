@@ -31,128 +31,58 @@ if (empty($groups)) {
 
     $pamela = array();
 
-    // //se hace un foreach para ubicar los grupos 
-    // foreach ($groups as $group) {
-
-    //     echo "<hr/> Estos buscando la actvidad " . $fileCode . " para el grupo " . $group .  "<br/>";
-
-
-    //     foreach ($data as $row) {
-
-    //         if( $row[0] == $group ) {
-    
-    //             echo var_dump($row) . "<hr>";
-    //         }
-        // }
-
-        // echo getFileByGroup($data, $group, $fileCode);
-
-        // if($data[$group][0] == $group  && $data[$group][1] == $fileCode) {
-
-        //     echo var_dump($data[$group]) . "<hr>";
-        //     //$pamela = $data[$group];
-        //   }
 
 
 
 
 
-        // var_dump($group);
-
-        // echo "<br>";
-        // echo "<br>";
-        // var_dump($data[$group][0]);
-        // echo "<br>";
-        // echo "<br>";
-        // var_dump($data[$group][1]);
-        // echo "<br>";
-        // echo "<br>";
-
-        // if ($data[$group][0] == $group  && $data[$group][1] = $fileCode) {
 
 
-        //     echo $group;
-        //     echo "<br>";
-        //     echo $fileCode;
 
-        //     $enlace = $data[$group][3];
 
-        //     echo $enlace;
-        //     echo "<br>";
+        if (isset($data[$group])){
 
-        //     echo  "Será que " . $data[$group][1] . " es igual a ". $fileCode . "para el grupo " . $data[$group][0];
-        //         ;
-        // } else {
+
+
+
+
+            $teacher = $data[$group][2];
+            //guarda en la variable $enlace el indice 3 de el array ya que ahi esta el enlace, y se le quita todos los espacios para poder ser verificado 
+            $enlace = trim($data[$group][3]);
+            $numeroActividad = $data[$group][1];
+
+
+
+            if (empty($enlace)) { //se pregunta si no hay enlace 
+                echo "<div id='msg-not-link'>No hay enlace para la ACC del Grupo: $group </div><br><br><hr/>";
+            } else { // si hay enlace ...
+
+                //se pregunta si el enlace es valido
+                if (filter_var($enlace, FILTER_VALIDATE_URL)) {
 
         
-        //    echo "no";
-            
-        // }
+                } else { //si el enlace no es valido...
+
+                    echo "<div id='msg-invalid-link'>El enlace no es valido para la ACC del Grupo: . $group </div><br><br><hr/>";
+                }
+            }
+        } else { //se busca grupo para todos los datos recibidos en el array de grupos, y si no hay grupos...
 
 
-        // if ($data[$group][0] = $group && $data[$group][1] = $fileCode ) {
-
-        //     echo $group;
-        //     echo "<br>";
-        //     echo $fileCode;
-
-        //     $enlace = $data[$group][3];
-
-        //     echo $enlace;
-        //     echo "<br>";
-
-        // }else{
-        //     echo "no";
-        // }
-
-
-
-
-
-
-
-
-
-        // if (isset($data[$group])){
-
-
-
-
-
-        //     $teacher = $data[$group][2];
-        //     //guarda en la variable $enlace el indice 3 de el array ya que ahi esta el enlace, y se le quita todos los espacios para poder ser verificado 
-        //     $enlace = trim($data[$group][3]);
-        //     $numeroActividad = $data[$group][1];
-
-
-
-        //     if (empty($enlace)) { //se pregunta si no hay enlace 
-        //         echo "<div id='msg-not-link'>No hay enlace para la ACC del Grupo: $group </div><br><br><hr/>";
-        //     } else { // si hay enlace ...
-
-        //         //se pregunta si el enlace es valido
-        //         if (filter_var($enlace, FILTER_VALIDATE_URL)) {
-
-        //             // Mostrar la información del grupo
-
-        //             echo "<div id='activity'>Aquí esta tu actividad de consolidación número $fileCode, propuesta por el profesor $teacher, para el grupo $group <br><br><br>";
-
-        //             echo "<span id='icon-Arrow' class='material-symbols-outlined'>
-        //             arrow_downward
-        //             </span> <br><br>";
-
-        //             echo "<a id='button-acc' href='$enlace' target='_blank'>Actividad de consolidación</a></div><br><br><hr/>";
-        //         } else { //si el enlace no es valido...
-
-        //             echo "<div id='msg-invalid-link'>El enlace no es valido para la ACC del Grupo: . $group </div><br><br><hr/>";
-        //         }
-        //     }
-        // } else { //se busca grupo para todos los datos recibidos en el array de grupos, y si no hay grupos...
-
-
-        //     echo "<div id='msg-indefinite-group'>Error: El grupo '$group' no se encuentra.</div><br><br><hr/>";
-        // }
+            echo "<div id='msg-indefinite-group'>Error: El grupo '$group' no se encuentra.</div><br><br><hr/>";
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 echo "<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>";
