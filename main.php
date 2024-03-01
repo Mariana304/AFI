@@ -1,12 +1,15 @@
 <?php
 
-echo '<link rel="stylesheet" href="CSS\style2.css">';
+// echo '<link rel="stylesheet" href="CSS\style2.css">';
 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />';
 
-$groups = ["202401_MD_AFIV04_1", "202401_MD_AFIV04_10"]; // Array de grupos
+echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">';
+
+$groups = ["202401_MD_AFIV04_1","202401_MD_AFIV04_10"]; // Array de grupos
 $fileCode = 1;
 $fileCodeStr = strval($fileCode);
-$titlePage = "Actividad de Consolidación de Conocimiento N°2: OBJETIVO 4";
+// $titlePage = "Actividad de Consolidación de Conocimiento N°2: OBJETIVO 4";
 $firstname = "Camilo";
 $role = "student";
 $rutaArchivoCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdl97qZGba8l61ifQ7Wv9mMPhUzU6ENeTFmRPE3IOzaKSe9tKyD_Dkf4vQcFfNnCTM02f8kyioGjj9/pub?gid=0&single=true&output=csv"; // Ruta del archivo CSV
@@ -20,27 +23,38 @@ while (($fila = fgetcsv($archivoCSV)) !== FALSE) {
 }
 fclose($archivoCSV);
 
-echo "<div id='container'>";
-
-echo ucfirst("<h1> ¡Hola $firstname!</h1>");
-
-echo "</div>";
-
-
-echo "<div id='info-content'>Aquí estara tus actividades de consolidación para los siguientes grupos.</div>";
-
-
-
 if (empty($groups)) {
-    echo "<div id='msg-not-groups'>No hay grupos en los datos recibidos</div>";
+    echo " 
+    <div class='container-sm mt-3'>
+    <div class='alert alert-danger text-center h4' role='alert'>
+    ¡Vaya!, no perteneces a ningun grupo.
+  </div></div>";
 } else {
+
+    echo "<div class='container-sm mt-3'>";
+    echo "<div class='card border-0'>";
+    echo "<div class='card-header border-0 bg-transparent text-center'>
+
+<h1>¡Hola $firstname!</h1>
+</div>";
+
+    echo "<div class='border-bottom' style='font-size: 20px; font-weight: 500;border-top: none; text-align: center;'>
+<p>Aquí estarán tus actividades de consolidación para los siguientes grupos. </p>
+</div>";
+
+
     foreach ($groups as $group) {
+
         // Resetear variables en cada iteración
         $enlace = null;
         $profesor = null;
+
         foreach ($csvData as $fila) {
+
+            
             //ENCONTRAMOS EL CODIGO DE EL GRUPO EN EL CSV
             if ($fila[0] === $group && $fila[1] === $fileCodeStr) {
+
                 // ENCONTRAR EL ENLACE EN EL INDICE 3, Y EL PROFESOR EN EL INDICE 2
                 $enlace = trim($fila[3]);
                 $profesor =  $fila[2];
@@ -51,47 +65,71 @@ if (empty($groups)) {
         if ($enlace !== null && $profesor !== null) {
             if (filter_var($enlace, FILTER_VALIDATE_URL)) {
 
-                //container info
-                echo "<div id='container-info'>";
-                echo "<div id='info'>";
-
-
-                //info teacher
-                echo "<div id='text-info-teacher'>";
-                echo "  <i class='fa-solid fa-user' id='icon-user'></i>
-                <p id='p-teacher'>Profesor: <span id='name-teacher'>$profesor</span></p>";
-                echo "</div>"; //div text-info-teacher
-
-
-                //info activity
-                echo "<div id='text-info-N-activity'>";
-                echo " <i class='fa-solid fa-file-pen' id='icon-activity'></i>
-                <p id='p-activity'>Numero ACC: <span id='N-activity'>$fileCode</span>
-                </p>";
-                echo "</div>"; //div text-info-N-activity
-
-                //info group
-                echo "<div id='text-info-group'><i class='fa-solid fa-users' id='icon-group'></i>
-                <p id='p-group'>Grupo: <span id='N-group'>$group</span></p> </div>";//div text-info-group
-
-                echo "</div>"; //div info
-
-
-                echo "<div id='container-buttom-activity'>";
-                echo " <a href='$enlace' id='buttom-activity'>Ver archivo</a>";
-                echo "</div>";//div container-buttom-activity
-
-                
-                echo "</div>"; //div container-info
-
-
+                //info
+                echo "<div class='row d-flex align-items-center border-bottom'>
+                <div class='card-body col-7'>
+                        <blockquote class='blockquote mb-0'>
+                            <div style='display: flex; margin-left: 20px;'>
+                                <i class='fa-solid fa-user' style='margin-top: 3px; margin-right:10px;'></i>
+                                <p style='font-size: 18px; font-weight: bold;'>Profesor: <span style='font-weight: 300;'>$profesor</span></p>
+                            </div>
+            
+                            <div style='display: flex; margin-left: 20px;'>
+                                <i class='fa-solid fa-file-pen' style='margin-top: 4px; margin-right:10px;'></i>
+                                <p style='font-size: 18px; font-weight: bold;'>Numero ACC: <span style='font-weight: 300;'> $fileCode</span>
+                                </p>
+                            </div>
+                            
+                            <div style='display: flex; margin-left: 20px;'>
+                                <i class='fa-solid fa-users' style='margin-top: 4px; margin-right:10px;'></i>
+                                <p style='font-size: 18px; font-weight: bold;'>Grupo: <span
+                                        style='font-weight: 300;'>$group</span></p>
+                            </div>
+    
+                            <!-- <footer class='blockquote-footer'>Someone famous in <cite title='Source Title'>Source
+                                    Title</cite>
+                            </footer> -->
+                            
+                        </blockquote>
+                </div>
+                <div class='col-5 text-center'>
+                    
+                    <a href='$enlace' target='_blank' class='btn btn-info'>Ver Archivo</a>
+                </div>
+            </div> ";
             } else { //si el enlace no es valido...
-                echo "<div id='msg-invalid-link'>El enlace no es valido para la ACC del Grupo: $group </div><br><br><hr/>";
+                echo "<div class='mt-3 border-bottom' style='font-size: 20px; font-weight: 500;border-top: none; text-align: center;'>
+            <p>El enlace no es valido para la ACC del Grupo: $group </p>
+        </div>";
             }
         } else {
-            echo "<div id='msg-indefinite-group'> No se encontró información para el grupo $group y la actividad número $fileCodeStr. </div> ";
+            echo "<div class='mt-3 border-bottom' style='font-size: 20px; font-weight: 500;border-top: none; text-align: center;'>
+            <p>No se encontró información para el grupo $group y la actividad número $fileCodeStr. </p>
+        </div>";
         }
     }
 }
 
-echo "</div>";
+
+echo "</div>"; //div card
+echo "</div>"; //div container-sm
+
+echo "<script src='https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js'
+integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'
+crossorigin='anonymous'></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js'
+integrity='sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct'
+crossorigin='anonymous'></script>";
+
+echo "<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>";
+
+echo "
+<div class='container-sm text-center mt-3'>
+<div class='loader' style='position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 9999;background:#fff; background-size: 100%;'><img src='images\loading2.gif'></div>
+</div>";
+
+echo "<script>
+$(window).load(function () {
+    $('.loader').fadeOut('slow');
+});
+</script>";
